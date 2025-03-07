@@ -127,7 +127,7 @@ console.log(dueAssignments)
 
 //Step 3 - here we are going to store the learners data in an empty object.
 //this is where all the learner data will be stored and organized as it is being processed
-
+let learnerData = {}
 
 
 
