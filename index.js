@@ -81,9 +81,8 @@ const CourseInfo = {
     }
   ];
   
-  //here is where I'm going to return the final results
+  //Step 1 - I am checking to see if the assignments actually belong to the Introduction to JavaScript class
   function getLearnerData(course, ag, submissions) {
-    // here, we would process this data to achieve the desired result.
     //Step 1 - Check if the AssignmentGroup ID matches the course_id. We can do this by using an Error 
     //Resource: 308H.2 - Erros Section
 try { 
@@ -130,6 +129,30 @@ console.log(dueAssignments)
 let learnerData = {}
 
 
+//Step 4 - Iterate through each learners submission to find the assignment that was submitted. Then check if that assignment is valid (not yet due) so we don't include it in the results or the average. I'm grabbing these so I can calculate the learners scores.
+for (let i = 0; i < LearnerSubmissions.length; i++) {
+    
+    //here is where we are going to grab each submission from LearnerSubmissions and run it through the loop
+    //I''m grabbing this so we can extract data from it
+    let submission = LearnerSubmissions[i]
+
+    //here is where we are going to grab each learner's ID
+    //Error: At first I tried LearnerSubmissions.learner_id, but I found out it doesn't work because LEarnerSubmissions is an array, and to make this work we need a single object like submissions from the parameter above or LearnerSubmissions[i], I think... we'll see.
+    //I'm grabbing this so we can group scores correctly for each learner
+    let learnerId = LearnerSubmissions[i].learner_id
+
+    //last here is where are grabbing each assignment ID
+    //I'm grabbing this data so we can find the matching assignment
+    let assignmentID = LearnerSubmissions[i].assignment_id
+
+
+    //Step 4 - here we are going to look through (aka loop through) dueAssignments to find the assignment that matches our assignmentID that we created in Step 4.
+    //this will allow us to sort through the student work and figure out who submitted what.
+    
+}
+
+
+
 
 //I added this { infornt of const result
   {  const result = [
@@ -159,3 +182,9 @@ let learnerData = {}
 //   console.log("Course Information:", CourseInfo);
 //   console.log("Assignment Group:", AssignmentGroup);
 //   console.log("Learner Submissions", LearnerSubmissions);
+
+const str = ["Hello World", "bye bye birdy"];
+
+for (const i in str) {
+    console.log(str[i]);
+}
