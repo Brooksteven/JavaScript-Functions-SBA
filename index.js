@@ -89,10 +89,10 @@ try {
     if (AssignmentGroup.course_id !== CourseInfo.id){
     throw `Error, the id's don't match!`
 } else {
-    console.log(`The id's match!`)
+    // console.log(`The id's match!`)
 }
 }catch (error){
-    console.log(error)
+    // console.log(error)
 }
   }
 
@@ -121,7 +121,7 @@ for (let i = 0; i < AssignmentGroup.assignments.length; i++){
     }
 }
 
-console.log(dueAssignments)
+// console.log(dueAssignments)
 
 
 //Step 3 - here we are going to store the learners data in an empty object.
@@ -145,10 +145,14 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
     //I'm grabbing this data so we can find the matching assignment
     let assignmentID = LearnerSubmissions[i].assignment_id
 
-
+    console.log(submission)
     //Step 4 - here we are going to look through (aka loop through) dueAssignments to find the assignment that matches our assignmentID that we created in Step 4.
     //this will allow us to sort through the student work and figure out who submitted what.
+    //this data is the learners submitted assignments that we are sorting through.
+
     
+
+
 }
 
 
