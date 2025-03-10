@@ -38,6 +38,7 @@ const CourseInfo = {
   
   //this data is what I can use to calculate scores, apply penalties, and organize results
   // The provided learner submission data.
+  //these are the learners
   const LearnerSubmissions = [
     {
       learner_id: 125,
@@ -143,14 +144,45 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
 
     //last here is where are grabbing each assignment ID
     //I'm grabbing this data so we can find the matching assignment
-    let assignmentID = LearnerSubmissions[i].assignment_id
+    let assignmentId = LearnerSubmissions[i].assignment_id
 
-    console.log(submission)
+    // console.log(submission)
     //Step 4 - here we are going to look through (aka loop through) dueAssignments to find the assignment that matches our assignmentID that we created in Step 4.
     //this will allow us to sort through the student work and figure out who submitted what.
     //this data is the learners submitted assignments that we are sorting through.
 
-    
+
+    //Step 5 - Here is where I put together a loop to find the matching assignments by looping through each dueAssignment and making it equal to assignmentId.
+    //I am setting let matchedAssignment to null instead of an {} because it doesn't have a value yet. 
+    //I am searching for a value so I'm using null. I use {} only if I need an empty object with properties.
+    //null in this case is the absence of an object because at this point we haven't found a matching assignment. So null just says we haven't found anything yet.
+    //So for now it is a placeholder until we find matching assignment inside the loop
+    //this creates a way for us to check if we found a match and we check this at step 6
+    //if matchedAssignment is still null after the loop then that tells us that there was no match
+    let matchedAssignment = null 
+
+    //here we are looping through the dueAssignments list
+    for (let z = 0; z < dueAssignments.length; z++) {
+
+        //if the dueAssignments match the submissions assignmentId, if they match make them equal to matchedAssignments and store them in matchedAssignments. It will take the place of null.
+        //If the assignmentId of the current due assignments matches the assignment Id from the submission, store the assignment.
+        if (dueAssignments[z].id === assignmentId) {
+            //if dueAssignment matches assignmentId then store the assignment in matchedAssignment.
+            matchedAssignment = dueAssignments[z] //here is where we store the matching assignment
+            //break once we found a matching assignment
+            break
+
+        //step 6 - if no matching assignment was found then we will skip this submission.
+        if (matchedAssignment === null){
+            continue; //we're going to skip the submission if the assignment doesn't match and move to the next submission
+        }
+
+
+
+
+        }
+    }
+    console.log(matchedAssignment)
 
 
 }
