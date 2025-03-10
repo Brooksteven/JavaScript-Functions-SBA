@@ -172,20 +172,33 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
             //break once we found a matching assignment
             break
 
+        }
+    }
         //step 6 - if no matching assignment was found then we will skip this submission.
         if (matchedAssignment === null){
             continue; //we're going to skip the submission if the assignment doesn't match and move to the next submission
         }
+         // console.log(matchedAssignment)
 
+    
 
+        //Step 7 - here we get the learners scores and store them in finalScore
+        let finalScore = submission.submission.score
 
+        //Step 9 - here we are checking to see if the submission is late
+        if (submission.submission.submitted_at > matchedAssignment.due_at){
 
+            //here is where we will apply a 10% penalty if the submission was late
+            finalScore = finalScore - (matchedAssignment.scored_points * 0.1)
         }
-    }
-    console.log(matchedAssignment)
 
-
-}
+        //here i am taking the calculations I got from finalScore and dividing it by matchedAssignment.scored_points to get the learnerData
+        learnerData[learnerId][assignmentId] = finalScore / matchedAssignment.scored_points
+        }
+        //so here is where I am trying to get the score as a percentage and store it; however my code here isn't working.
+        //but I want to get the percentage to help me get to calculating final grades and then return the final data. 
+    
+    
 
 
 
@@ -219,8 +232,8 @@ for (let i = 0; i < LearnerSubmissions.length; i++) {
 //   console.log("Assignment Group:", AssignmentGroup);
 //   console.log("Learner Submissions", LearnerSubmissions);
 
-const str = ["Hello World", "bye bye birdy"];
+// const str = ["Hello World", "bye bye birdy"];
 
-for (const i in str) {
-    console.log(str[i]);
-}
+// for (const i in str) {
+//     console.log(str[i]);
+// }
