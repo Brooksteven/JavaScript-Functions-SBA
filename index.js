@@ -262,6 +262,7 @@ const CourseInfo = {
 
 
 function getLearnerData(course, ag, submissions) {
+    //check if the ag course ID matches the given course ID
     try { 
         if (ag.course_id !== course.id) {
             throw `Error, the id's don't match!`;
@@ -271,9 +272,10 @@ function getLearnerData(course, ag, submissions) {
     }
 
     let todaysDate = "2025-03-06";
-    let dueAssignments = [];
+    let dueAssignments = []; //empty array to store assignments
 
     //change AssignmentGroup to ag parameter in getLearnerData
+    //find due assignment in the ag group 
     for (let i = 0; i < ag.assignments.length; i++) {
         let assignment = ag.assignments[i];
         if (assignment.due_at <= todaysDate) {
@@ -283,6 +285,7 @@ function getLearnerData(course, ag, submissions) {
 
     let learnerData = {};
 
+    //process each submission by iterating through each submission in the submissions list
     for (let i = 0; i < submissions.length; i++) {
         let submission = LearnerSubmissions[i];
         let learnerId = LearnerSubmissions[i].learner_id;
@@ -290,47 +293,54 @@ function getLearnerData(course, ag, submissions) {
 
 
         let matchedAssignment = null;
+        //looping through to find matching assignments based off the assignment Id
         for (let z = 0; z < dueAssignments.length; z++) {
             if (dueAssignments[z].id === assignmentId) {
-                matchedAssignment = dueAssignments[z];
-                break;
+                matchedAssignment = dueAssignments[z]; //assigning the found assignment
+                break; //stop once match is found
             }
         }
 
         //W3School Parameter Defaults(https://www.w3schools.com/js/js_best_practices.asp)
+        //if no "matched assignment" OR it doesn't have "defined points_possible" then (continue) go to next submission
         if (!matchedAssignment || matchedAssignment.points_possible === undefined) {
             continue;
         }
 
+        //if "submission" is missing OR does not have "defined score" then (continue) go to next submission
         if (!submission.submission || submission.submission.score === undefined) {
             continue;
         }
 
         let finalScore = submission.submission.score;
 
+        //if "submission was submitted late" 
         if (submission.submission.submitted_at > matchedAssignment.due_at) {
-            finalScore -= matchedAssignment.points_possible * 0.1;
+            finalScore = finalScore - (matchedAssignment.points_possible * 0.1); //apply a 10% penalty on points_possible
         }
 
+        //if learner is not already in learnerData then initialize the object
         if (!learnerData[learnerId]) {
             learnerData[learnerId] = { id: learnerId, totalScore: 0, maxPoints: 0 };
         }
 
 
-        learnerData[learnerId][assignmentId] = finalScore / matchedAssignment.points_possible;
-        learnerData[learnerId].totalScore = learnerData[learnerId].totalScore + finalScore;
-        learnerData[learnerId].maxPoints = learnerData[learnerId].maxPoints + matchedAssignment.points_possible;
+        learnerData[learnerId][assignmentId] = finalScore / matchedAssignment.points_possible; //storing learners score
+        learnerData[learnerId].totalScore = learnerData[learnerId].totalScore + finalScore; // updating their total score
+        learnerData[learnerId].maxPoints = learnerData[learnerId].maxPoints + matchedAssignment.points_possible; //update the maxpoints
     }
 
     let results = [];
 
+    //loop through each learners data in learnerData
     for (let learnerId in learnerData) {
         let learner = learnerData[learnerId];
 
-        learner.avg = learner.totalScore / learner.maxPoints;
+        learner.avg = learner.totalScore / learner.maxPoints; //calculating avg score
         
 
         //deleting a property source(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+        //we don't need these in result
         delete learner.totalScore;
         delete learner.maxPoints;
 
@@ -342,7 +352,12 @@ function getLearnerData(course, ag, submissions) {
 
 try {
     let output = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+
+    if(!output){
+        throw new Error('no output')
+    }
     console.log(output);
+    
 } catch (error) {
     console.log("There's an error. Something went wrong:", error);
 }
@@ -350,7 +365,7 @@ try {
 //Sources: 
 //MDN - Control Flow and Error Handling(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling), 
 //Initialize Variables when you declare them(https://www.w3schools.com/js/js_best_practices.asp)
-//W3School(https://www.w3schools.com/js/js_break.asp), 
+//W3School-Break and Continue(https://www.w3schools.com/js/js_break.asp), 
 //Loops and Iteration(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration)
 //If, Else, and Else If(https://www.w3schools.com/js/js_if_else.asp)
 //For In Loop(https://www.w3schools.com/js/js_loop_forin.asp) 
